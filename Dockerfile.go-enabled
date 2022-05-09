@@ -1,5 +1,5 @@
 # Runtime based image...
-FROM nordesbellnet/darknet:gpu-cc75-0.3
+FROM nordesbellnet/darknet:gpu-cc75-0.2
 
 RUN apt-get update \
       && apt-get install -y wget gnupg2 ca-certificates git build-essential \

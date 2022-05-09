@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.2"
+VERSION="0.3"
 DOCKER_REPO="nordesbellnet/darknet"
 DOCKER_TAG=gpu-cc75
 
