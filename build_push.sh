@@ -54,8 +54,3 @@ fi
 
 docker push $DOCKER_REPO:$DOCKER_TAG-$VERSION
 done
-
-docker build \
-  -t $DOCKER_REPO:$DOCKER_TAG-$VERSION-go -f Dockerfile.go .
-
-docker push $DOCKER_REPO:$DOCKER_TAG-$VERSION-go
