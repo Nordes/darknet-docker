@@ -1,8 +1,8 @@
 # Runtime based image...
 FROM nordesbellnet/darknet:gpu-cc75-0.2
 
-RUN find / -name 'libcuda.so*' | grep -v bazel
-RUN env | grep LIBRARY
+# RUN find / -name 'libcuda.so*' | grep -v bazel
+# RUN env | grep LIBRARY
 
 RUN apt-get update \
       && apt-get install -y wget gnupg2 ca-certificates git build-essential \
@@ -15,3 +15,4 @@ RUN wget https://go.dev/dl/go1.18.1.linux-amd64.tar.gz \
         && rm -f go1.18.1.linux-amd64.tar.gz
 
 ENV PATH="${PATH}:/usr/local/go/bin"
+ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/local/cuda-11.6/compat"
