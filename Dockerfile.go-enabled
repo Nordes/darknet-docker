@@ -1,6 +1,9 @@
 # Runtime based image...
 FROM nordesbellnet/darknet:gpu-cc75-0.2
 
+RUN updatedb && ldconfig && find / -name 'libcuda.so*' | grep -v bazel
+RUN env | grep LIBRARY
+
 RUN apt-get update \
       && apt-get install -y wget gnupg2 ca-certificates git build-essential \
       && rm -rf /var/lib/apt/lists/*
