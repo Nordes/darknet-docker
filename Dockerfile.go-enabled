@@ -1,9 +1,11 @@
-FROM nordesbellnet/darknet:gpu-cc75-0.2
+# Runtime based image...
+FROM nordesbellnet/darknet:gpu-cc75-0.3
 
 RUN apt-get update \
-      && apt-get install -y curl wget \
+      && apt-get install -y wget gnupg2 ca-certificates git build-essential \
       && rm -rf /var/lib/apt/lists/*
 
+# Adding GOLang
 RUN wget https://go.dev/dl/go1.18.1.linux-amd64.tar.gz \
         && rm -rf /usr/local/go \
         && tar -C /usr/local -xzf go1.18.1.linux-amd64.tar.gz \
