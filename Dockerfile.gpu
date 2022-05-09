@@ -1,12 +1,11 @@
-ARG BASE_IMAGE=nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
+ARG BASE_IMAGE=nvidia/cuda:11.6.2-cudnn8-devel-ubuntu20.04
+################################################################################################
 FROM $BASE_IMAGE AS builder
 LABEL maintainer="Daisuke Kobayashi <daisuke@daisukekobayashi.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
-
 RUN apt-get update \
-      && apt-get install --no-install-recommends --no-install-suggests -y gnupg2 ca-certificates \
-            git build-essential \
+      && apt-get install --no-install-recommends --no-install-suggests -y gnupg2 ca-certificates git build-essential \
       && rm -rf /var/lib/apt/lists/*
 
 COPY configure.sh /tmp/
@@ -24,9 +23,12 @@ RUN git clone https://github.com/AlexeyAB/darknet.git && cd darknet \
       && git reset --hard $SOURCE_COMMIT \
       && /tmp/configure.sh $CONFIG && make \
       && cp darknet /usr/local/bin \
+      && cp include/darknet.h /usr/local/include \
+      && cp libdarknet.so /usr/local/lib \
       && cd .. && rm -rf darknet
 
-FROM nvidia/cuda:11.2.2-cudnn8-runtime-ubuntu20.04
+################################################################################################
+FROM nvidia/cuda:11.6.2-cudnn8-runtime-ubuntu20.04
 LABEL maintainer="Daisuke Kobayashi <daisuke@daisukekobayashi.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -38,3 +40,5 @@ ARG SOURCE_COMMIT=unspecified
 ENV SOURCE_COMMIT $SOURCE_COMMIT
 
 COPY --from=builder /usr/local/bin/darknet /usr/local/bin/darknet
+COPY --from=builder /usr/local/include/darknet.h /usr/local/include/darknet.h
+COPY --from=builder /usr/local/lib/libdarknet.so /usr/local/lib/libdarknet.so
