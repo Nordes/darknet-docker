@@ -1,7 +1,7 @@
 # Runtime based image...
 FROM nordesbellnet/darknet:gpu-cc75-0.2
 
-RUN updatedb && ldconfig && find / -name 'libcuda.so*' | grep -v bazel
+RUN find / -name 'libcuda.so*' | grep -v bazel
 RUN env | grep LIBRARY
 
 RUN apt-get update \
