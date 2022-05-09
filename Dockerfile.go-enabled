@@ -4,7 +4,7 @@ RUN apt-get update \
       && apt-get install -y curl wget \
       && rm -rf /var/lib/apt/lists/*
 
-RUN curl https://go.dev/dl/go1.18.1.linux-amd64.tar.gz \
+RUN wget https://go.dev/dl/go1.18.1.linux-amd64.tar.gz \
         && rm -rf /usr/local/go \
         && tar -C /usr/local -xzf go1.18.1.linux-amd64.tar.gz \
         && rm -f go1.18.1.linux-amd64.tar.gz
