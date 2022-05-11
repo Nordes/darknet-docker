@@ -59,5 +59,5 @@ if [[ "$DOCKER_TAG" == *cv* ]]; then
   fi
 fi
 
-docker push $DOCKER_REPO:$DOCKER_TAG-$VERSION
+docker push $DOCKER_REPO:$VERSION-$DOCKER_TAG
 done
