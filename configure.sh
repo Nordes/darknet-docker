@@ -59,7 +59,16 @@ case ${tag} in
     enable_openmp
     enable_libso    
     ;;
+  "cpu-go")
+    enable_avx
+    enable_openmp
+    enable_libso    
+    ;;
   "cpu-noopt")
+    enable_openmp
+    enable_libso    
+    ;;
+  "cpu-noopt-go")
     enable_openmp
     enable_libso    
     ;;
