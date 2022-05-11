@@ -1,0 +1,34 @@
+FROM ubuntu:20.04
+LABEL maintainer="Daisuke Kobayashi <daisuke@daisukekobayashi.com>"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update \
+      && apt-get install --no-install-recommends --no-install-suggests -y gnupg2 ca-certificates \
+            git build-essential wget \
+      && rm -rf /var/lib/apt/lists/*
+
+# Adding GOLang
+RUN wget https://go.dev/dl/go1.18.1.linux-amd64.tar.gz \
+        && rm -rf /usr/local/go \
+        && tar -C /usr/local -xzf go1.18.1.linux-amd64.tar.gz \
+        && rm -f go1.18.1.linux-amd64.tar.gz
+
+COPY configure.sh /tmp/
+
+ARG SOURCE_BRANCH=unspecified
+ENV SOURCE_BRANCH $SOURCE_BRANCH
+
+ARG SOURCE_COMMIT=unspecified
+ENV SOURCE_COMMIT $SOURCE_COMMIT
+
+ENV PATH="${PATH}:/usr/local/go/bin"
+
+ARG CONFIG
+
+RUN git clone https://github.com/AlexeyAB/darknet.git && cd darknet \
+      && git checkout $SOURCE_BRANCH \
+      && git reset --hard $SOURCE_COMMIT \
+      && /tmp/configure.sh $CONFIG && make \
+      && cp darknet /usr/local/bin \
+      && cd .. && rm -rf darknet
