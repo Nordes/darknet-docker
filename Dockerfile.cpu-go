@@ -15,9 +15,11 @@ RUN git clone https://github.com/AlexeyAB/darknet.git && cd darknet \
       && git reset --hard $SOURCE_COMMIT \
       && /tmp/configure.sh $CONFIG && make \
       && cp darknet /usr/local/bin \
-      && cp include/darknet.h /usr/local/include \
-      && cp libdarknet.so /usr/local/lib \
-      && cd .. && rm -rf darknet
+      && mkdir -p /usr/local/include \
+      && mkdir -p /usr/local/lib 
+RUN cp include/darknet.h /usr/local/include
+RUN cp libdarknet.so /usr/local/lib 
+RUN cd .. && rm -rf darknet
 
 # Adding GOLang
 RUN wget https://go.dev/dl/go1.18.1.linux-amd64.tar.gz \
